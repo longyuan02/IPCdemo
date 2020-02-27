@@ -207,6 +207,21 @@ SharePreferences底层是通过读写XML文件来实现的,并发写显然是出
 当一个组件在另一个进程运行时，相当于另一个应用程序，所以再另一个进程中也将新建一个Application的实例。因此，每新建一个进程，Application的onCreate都会被调用一次。
 如果在Application的onCreate中有许多初始化工作并且需要根据进程来区分
 ```
+获取进程
+```
+public static String getProcessName() {
+        try {
+            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
+            BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
+            String processName = mBufferedReader.readLine().trim();
+            mBufferedReader.close();
+            return processName;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+```
 ----
 #### 1.3 IPC基础概念
    ##### 1.3.1 Serializable
